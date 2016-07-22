@@ -290,6 +290,14 @@ function update_position(){
 			lastMessage = get_message();
 			error("Failed to get GPS location.");
 			console.log("failed to get gps location....");
+			var fake_location_coords = { 
+			  latitude: 41.5845613, 
+			  longitude: -93.6408365 
+			}; 
+			var fake_location = { 
+			  "coords": fake_location_coords 
+			} 
+			update_player(fake_location);
 		}
 	,{timeout:30000});
 }
