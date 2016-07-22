@@ -75,17 +75,17 @@ jQuery(function($) {
 });
 
 function map_api_loaded() {
-//    navigator.geolocation.getCurrentPosition(handler);
+    navigator.geolocation.getCurrentPosition(handler);
 	
 	//this is the makerspace
-	var fake_location_coords = {
-		latitude: 41.5845613,
-		longitude: -93.6408365
-	};
-	var fake_location = {
-		"coords": fake_location_coords
-	}
-	handler(fake_location);
+//	var fake_location_coords = {
+//		latitude: 41.5845613,
+//		longitude: -93.6408365
+//	};
+//	var fake_location = {
+//		"coords": fake_location_coords
+//	}
+//	handler(fake_location);
 }
 
 function refresh_pokemon() {
