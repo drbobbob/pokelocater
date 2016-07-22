@@ -2,6 +2,7 @@ from django.http import HttpResponse
 import datetime
 import json
 import pokelocator_api
+import fake_pokelocator
 from django.template.response import TemplateResponse
 import os
 
@@ -15,20 +16,13 @@ def json_custom_parser(obj):
     else:
         raise TypeError(obj)
 
-
-def get_fake_pokemon_result(location):
-    loc_parts = location.split(',')
-    lat = float(loc_parts[0].strip()) + (random.random() * 0.002) - 0.001
-    lon = float(loc_parts[1].strip()) + (random.random() * 0.002) - 0.001
-    i = random.randint(1,151)
-    return [{"id":i,"name":"foo","latitude":lat,"longitude":lon,"time_left":100,"distance":10,"direction":"N"}]
-
 def get_poke(request):
 
     location = request.POST.get('location', "911 Washington Ave, Saint Louis, MO")
     direction = request.POST.get('direction', False)
+    print location
     result = pokelocator_api.main(location=location, direction=direction)
-    #result = get_fake_pokemon_result(location)
+#    result = fake_pokelocator.get_fake_pokemon_result(location, 5)
     
     return HttpResponse(json.dumps({
         "status": "success",

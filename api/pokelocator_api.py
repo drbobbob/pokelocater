@@ -62,12 +62,12 @@ def h2f(hex):
   return struct.unpack('<d', struct.pack('<Q', int(hex,16)))[0]
 
 def set_location(location_name):
-    geolocator = GoogleV3()
-    loc = geolocator.geocode(location_name)
-
-    print('[!] Your given location: {}'.format(loc.address.encode('utf-8')))
-    print('[!] lat/long/alt: {} {} {}'.format(loc.latitude, loc.longitude, loc.altitude))
-    set_location_coords(loc.latitude, loc.longitude, loc.altitude)
+    loc_parts = location_name.split(',')
+    lat = float(loc_parts[0].strip())
+    lng = float(loc_parts[1].strip())
+    alt = 0.0
+    print('[!] lat/long/alt: {} {} {}'.format(lat, lng, alt))
+    set_location_coords(lat, lng, alt)
 
 def set_location_coords(lat, long, alt):
     global COORDS_LATITUDE, COORDS_LONGITUDE, COORDS_ALTITUDE
@@ -450,6 +450,15 @@ def main(location=None, direction=None):
             print("Within one step of %s (%sm %s from you):" % (other, int(origin.get_distance(other).radians * 6366468.241830914), direction))
             for poke in cell.NearbyPokemon:
                 print('    (%s) %s' % (poke.PokedexNumber, pokemons[poke.PokedexNumber - 1]['Name']))
+                nearby_pokes.append({
+                    "id": "%d_grey" % poke.PokedexNumber,
+                    "name": pokemons[poke.PokedexNumber - 1]['Name'],
+                    "latitude": other.lat().degrees,
+                    "longitude": other.lng().degrees,
+                    "time_left": "unknown",
+                    "distance": int(origin.get_distance(other).radians * 6366468.241830914),
+                    "direction": direction
+                })
 
     print('')
     for poke in visible:
